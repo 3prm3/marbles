@@ -1,6 +1,7 @@
 package net.dodogang.marbles.datagen.models;
 
 import me.andante.chord.block.helper.WoodBlocks;
+import net.dodogang.marbles.Marbles;
 import net.dodogang.marbles.block.helper.TravertineBlocks;
 import net.dodogang.marbles.datagen.models.modelgen.ModelGen;
 import net.dodogang.marbles.init.MarblesBlocks;
@@ -22,8 +23,17 @@ public final class ItemModelTable {
     public static void registerItemModels(BiConsumer<Item, ModelGen> c) {
         consumer = c;
 
+        /*
+         * WOOD SETS
+         */
+
         registerWoodBlocks(MarblesBlocks.ASPEN);
         registerWoodBlocks(MarblesBlocks.HOOPSI_SPRUCE);
+        registerWoodBlocks(MarblesBlocks.RED_BIRCH);
+
+        /*
+         * TRAVERTINE SETS
+         */
 
         registerTravertineBlocks(MarblesBlocks.TRAVERTINE_BLOCKS);
         registerTravertineBlocks(MarblesBlocks.LEMON_TRAVERTINE_BLOCKS);
@@ -31,6 +41,10 @@ public final class ItemModelTable {
         registerTravertineBlocks(MarblesBlocks.TANGERINE_TRAVERTINE_BLOCKS);
 
         register(MarblesBlocks.TRAVERTINE_OBSIDIAN, item -> inherit(name(item, "block/%s")));
+
+        /*
+         * PINK SALT
+         */
 
         register(MarblesBlocks.PINK_SALT, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.PINK_SALT_SLAB, item -> inherit(name(item, "block/%s")));
@@ -43,16 +57,29 @@ public final class ItemModelTable {
         register(MarblesBlocks.PINK_SALT_SPIRE, item -> generated(name(item, "item/%s")));
         register(MarblesBlocks.PINK_SALT_STACK, item -> generated(name(item, "item/%s")));
         register(MarblesBlocks.PINK_SALT_STUMP, item -> generated(name(item, "item/%s")));
+        register(MarblesBlocks.PINK_SALT_SPIKES, item -> generated(name(item, "item/%s")));
+
+        /*
+         * LAPIS SETS
+         */
 
         register(MarblesBlocks.LAPIS_SHINGLES, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.LAPIS_SHINGLE_SLAB, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.LAPIS_SHINGLE_STAIRS, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.LAPIS_SPOTLIGHT, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.GLAZED_LAPIS, item -> inherit(name(item, "block/%s")));
+        register(MarblesItems.UMBRAL_LAZULI, item -> generated(name(item, "item/%s")));
         register(MarblesBlocks.UMBRAL_LAZULI_ORE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.UMBRAL_LAZULI_BLOCK, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.UMBRAL_LAZULI_SHINGLES, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.UMBRAL_LAZULI_SHINGLE_SLAB, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.UMBRAL_LAZULI_SHINGLE_STAIRS, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.UMBRAL_LAZULI_SPOTLIGHT, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.GLAZED_UMBRAL_LAZULI, item -> inherit(name(item, "block/%s")));
+
+        /*
+         * SANDSTONE SETS
+         */
 
         register(MarblesBlocks.DAWN_SAND, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.DAWN_SANDSTONE, item -> inherit(name(item, "block/%s")));
@@ -84,7 +111,9 @@ public final class ItemModelTable {
         register(MarblesBlocks.CUT_DUSK_SANDSTONE_WALL, item -> using(name(item, "block/%s", "(^cut_)|(_wall$)", ""), n -> wallSidedInventory(n + "_bottom", n + "_top", n)));
         register(MarblesBlocks.SMOOTH_DUSK_SANDSTONE_WALL, item -> wallInventory(name(item, "block/%s_top", "(^smooth_)|(_wall$)", "")));
 
-        register(MarblesBlocks.YELLOW_BAMBOO, item -> generated(name(item, "item/%s")));
+        /*
+         * GRISP SET
+         */
 
         register(MarblesBlocks.GRISP_DIRT, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.COARSE_GRISP_DIRT, item -> inherit(name(item, "block/%s")));
@@ -97,11 +126,51 @@ public final class ItemModelTable {
         register(MarblesBlocks.GRISP_MYCELIUM_PATH, item -> inherit(name(item, "block/%s")));
         register(MarblesBlocks.GRISP_FARMLAND, item -> inherit(name(item, "block/%s")));
 
-        register(MarblesItems.YELLOW_SCAFFOLDING, item -> inherit("marbles:block/yellow_scaffolding_stable"));
-        register(MarblesItems.PINK_SALT_SHARD, item -> generated(name(item, "item/%s")));
-        register(MarblesItems.UMBRAL_LAZULI, item -> generated(name(item, "item/%s")));
-    }
+        /*
+         * POLLEN-GRACED SET
+         */
 
+        register(MarblesBlocks.POLLEN_GRACED_WOOL, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.POLLEN_GRACED_CARPET, item -> inherit(name(item, "block/%s")));
+
+        /*
+         * MISC
+         */
+
+        register(MarblesItems.YELLOW_SCAFFOLDING, item -> inherit(new Identifier(Marbles.MOD_ID, "block/yellow_scaffolding_stable")));
+        register(MarblesBlocks.YELLOW_BAMBOO, item -> generated(name(item, "item/%s")));
+
+        register(MarblesBlocks.ROPE, item -> generated(name(item, "item/%s")));
+        register(MarblesItems.PINK_SALT_SHARD, item -> generated(name(item, "item/%s")));
+
+        /*
+         * ICE
+         */
+
+        register(MarblesBlocks.FLOESTONE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.POLISHED_FLOESTONE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.CHISELED_FLOESTONE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.FLOESTONE_BRICKS, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.RILLED_FLOESTONE, item -> inherit(name(item, "block/%s")));
+
+        register(MarblesBlocks.SCALED_ICE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.MINTED_ICE, item -> inherit(name(item, "block/%s")));
+
+        register(MarblesBlocks.CUT_ICE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.CUT_BLUE_ICE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.CUT_SCALED_ICE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.CUT_MINTED_ICE, item -> inherit(name(item, "block/%s")));
+
+        register(MarblesBlocks.CHISELED_ICE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.CHISELED_BLUE_ICE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.CHISELED_SCALED_ICE, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.CHISELED_MINTED_ICE, item -> inherit(name(item, "block/%s")));
+
+        register(MarblesBlocks.ICE_BRICKS, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.BLUE_ICE_BRICKS, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.SCALED_ICE_BRICKS, item -> inherit(name(item, "block/%s")));
+        register(MarblesBlocks.MINTED_ICE_BRICKS, item -> inherit(name(item, "block/%s")));
+    }
 
     private static void registerTravertineBlocks(TravertineBlocks blocks) {
         register(blocks.RAW, item -> inherit(name(item, "block/%s")));

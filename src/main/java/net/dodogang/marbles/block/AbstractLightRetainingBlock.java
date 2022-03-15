@@ -1,6 +1,7 @@
 package net.dodogang.marbles.block;
 
 import net.dodogang.marbles.init.MarblesParticles;
+import net.dodogang.marbles.sound.MarblesSoundGroups;
 import net.dodogang.marbles.state.property.MarblesProperties;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -103,8 +104,9 @@ public abstract class AbstractLightRetainingBlock extends Block implements Water
             this.spawnParticles(world, pos);
             return actionResult;
         } else {
-            if (actionResult.shouldSwingHand())
-                world.playSound(null, pos, MarblesSoundGroups.PINK_SALT.getHitSound(), SoundCategory.BLOCKS, 1, 1);
+            if (actionResult.shouldSwingHand() && world.isClient) {
+                world.playSound(null, pos, MarblesSoundGroups.PINK_SALT.getHitSound(), SoundCategory.BLOCKS, 1.0f, 1.0f);
+            }
             this.light(state, world, pos, retainedLight);
         }
 

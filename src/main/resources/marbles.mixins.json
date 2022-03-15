@@ -5,18 +5,36 @@
   "plugin": "net.dodogang.marbles.mixin.MarblesMixinPlugin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbstractFireBlockMixin",
     "BlockViewMixin",
     "ChunkSectionMixin",
     "ChunkSerializerMixin",
     "CropBlockMixin",
+    "CrossbowItemMixin",
+    "DyeItemMixin",
+    "EntityMixin",
+    "EntityShapeContextMixin",
     "FluidBlockMixin",
+    "LlamaEntityMixin",
+    "PlayerEntityMixin",
+    "PointOfInterestTypeMixin",
     "ProtoWorldChunkMixin",
-    "WorldMixin"
+    "WorldMixin",
+    "worldgen.BiomeArrayMixin",
+    "worldgen.HorizontalVoronoiBiomeAccessTypeMixin",
+    "worldgen.NoiseChunkGeneratorMixin"
   ],
   "client": [
-    "BiomeColorsMixin",
-    "BlockDustParticleMixin",
-    "ClientWorldMixin"
+    "client.BiomeColorsMixin",
+    "client.BlockDustParticleMixin",
+    "client.ClientPlayerEntityMixin",
+    "client.ClientPlayNetworkHandlerMixin",
+    "client.ClientWorldMixin",
+    "client.InGameHudMixin",
+    "client.JsonUnbakedModelDeserializerMixin",
+    "client.LlamaDecorFeatureRendererMixin",
+    "client.SplashTextResourceSupplierMixin",
+    "client.WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

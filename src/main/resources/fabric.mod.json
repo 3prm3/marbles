@@ -3,9 +3,11 @@
   "license": "MIT",
   "id": "marbles",
   "version": "${version}",
+
   "name": "Marbles",
-  "description": "Description",
-  "icon": "assets/marbles/textures/gui/logo.png",
+  "description": "Marbles adds dozens of exotic biomes, with many glorious blocks, mobs, and functionalities to quench your thirst! Marbles was born with the intention of creating a fresh new survival experience, with many cool things to discover. Why don’t we go take a look?",
+  "icon": "assets/marbles/textures/icon.png",
+
   "authors": [
     "Dodo Gang"
   ],
@@ -25,8 +27,13 @@
       "net.dodogang.marbles.MarblesClient"
     ],
     "server": [],
+
+    "modmenu": [
+      "net.dodogang.marbles.MarblesModMenu"
+    ],
+
     "debug:client": [
-      "net.dodogang.marbles.debug.MarblesDebugClient"
+      "net.dodogang.marbles.client.debug.MarblesDebugClient"
     ],
     "debug:menu": [
       "net.dodogang.marbles.debug.MarblesDebugMenu"
@@ -35,10 +42,23 @@
   "mixins": [
     "marbles.mixins.json"
   ],
+  "accessWidener": "marbles.accesswidener",
+
   "depends": {
     "fabricloader": ">=0.11.0",
     "fabric": ">=0.32.0",
-    "minecraft": ">=1.16.2",
-    "chord": ">=1.5.1"
+    "minecraft": ">=1.16.4",
+    "chord": ">=1.7.1"
+  },
+  "recommends": {
+    "canvas": "*",
+    "fallingblocktweaks": "*"
+  },
+  "conflicts": {
+    "minecraft": "<1.16.4"
+  },
+  "breaks": {
+    "lithium": "0.6.1",
+    "hydrogen": "*"
   }
 }

@@ -4,10 +4,12 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import me.andante.chord.block.helper.WoodBlocks;
+import net.dodogang.marbles.Marbles;
 import net.dodogang.marbles.block.helper.TravertineBlocks;
 import net.dodogang.marbles.init.MarblesBlocks;
 import net.dodogang.marbles.init.MarblesItems;
 import net.minecraft.block.*;
+import net.minecraft.block.enums.BedPart;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.enchantment.Enchantments;
@@ -53,7 +55,7 @@ public class MarblesBlockLootTables implements Consumer<BiConsumer<Identifier, L
     protected static final LootCondition.Builder WITH_SILK_TOUCH_OR_SHEARS = WITH_SHEARS.or(WITH_SILK_TOUCH);
     protected static final LootCondition.Builder WITHOUT_SILK_TOUCH_NOR_SHEARS = WITH_SILK_TOUCH_OR_SHEARS.invert();
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("UnstableApiUsage")
     private static final Set<Item> EXPLOSION_IMMUNE = Stream.of(
         Blocks.DRAGON_EGG,
         Blocks.BEACON,
@@ -91,8 +93,17 @@ public class MarblesBlockLootTables implements Consumer<BiConsumer<Identifier, L
 
     @Override
     public void accept(BiConsumer<Identifier, LootTable.Builder> biConsumer) {
+        /*
+         * WOOD SETS
+         */
+
         addWoodDrops(MarblesBlocks.ASPEN);
         addWoodDrops(MarblesBlocks.HOOPSI_SPRUCE);
+        addWoodDrops(MarblesBlocks.RED_BIRCH);
+
+        /*
+         * TRAVERTINE SETS
+         */
 
         addTravertineDrops(MarblesBlocks.TRAVERTINE_BLOCKS);
         addTravertineDrops(MarblesBlocks.LEMON_TRAVERTINE_BLOCKS);
@@ -100,7 +111,14 @@ public class MarblesBlockLootTables implements Consumer<BiConsumer<Identifier, L
         addTravertineDrops(MarblesBlocks.TANGERINE_TRAVERTINE_BLOCKS);
 
         addDrop(MarblesBlocks.TRAVERTINE_OBSIDIAN);
+        addDrop(MarblesBlocks.TRAVERTINE_PORTAL, block -> dropsNothing());
 
+        /*
+         * PINK SALT
+         */
+
+        addDrop(MarblesBlocks.PINK_SALT_CAVE_AIR, block -> dropsNothing());
+        addDrop(MarblesBlocks.ICE_CAVE_AIR, block -> dropsNothing());
         addDrop(MarblesBlocks.PINK_SALT);
         addDrop(MarblesBlocks.PINK_SALT_SLAB);
         addDrop(MarblesBlocks.PINK_SALT_STAIRS);
@@ -110,22 +128,39 @@ public class MarblesBlockLootTables implements Consumer<BiConsumer<Identifier, L
         addDrop(MarblesBlocks.PINK_SALT_BRICK_STAIRS);
         addDrop(MarblesBlocks.PINK_SALT_PILLAR);
         addDrop(MarblesBlocks.PINK_SALT_SPIRE);
-        addDrop(MarblesBlocks.PINK_SALT_STACK, block -> dropsWithSilkTouch(block, MarblesItems.PINK_SALT_SHARD, countBiased(1, 4)));
-        addDrop(MarblesBlocks.PINK_SALT_STUMP, block -> dropsWithSilkTouch(block, MarblesItems.PINK_SALT_SHARD, countBiased(1, 2)));
+        addDrop(MarblesBlocks.PINK_SALT_STACK, block -> dropsWithSilkTouch(block, MarblesItems.PINK_SALT_SHARD, countRandom(1, 4)));
+        addDrop(MarblesBlocks.PINK_SALT_STUMP, block -> dropsWithSilkTouch(block, MarblesItems.PINK_SALT_SHARD, countRandom(1, 2)));
+        addDrop(MarblesBlocks.PINK_SALT_SPIKES, block -> dropsWithSilkTouch(block, MarblesItems.PINK_SALT_SHARD, countBiased(2, 0.4f)));
+
+        /*
+         * LAPIS SETS
+         */
 
         addDrop(MarblesBlocks.LAPIS_SHINGLES);
         addSlabDrop(MarblesBlocks.LAPIS_SHINGLE_SLAB);
         addDrop(MarblesBlocks.LAPIS_SHINGLE_STAIRS);
         addDrop(MarblesBlocks.LAPIS_SPOTLIGHT);
-        addDrop(MarblesBlocks.UMBRAL_LAZULI_ORE, block -> dropsWithSilkTouch(block, MarblesItems.UMBRAL_LAZULI, countBiased(4, 9)));
+        addDrop(MarblesBlocks.GLAZED_LAPIS);
+        addDrop(MarblesBlocks.UMBRAL_LAZULI_ORE, block -> dropsWithSilkTouch(block, MarblesItems.UMBRAL_LAZULI, countBiased(4, 0.4f)));
+        addDrop(MarblesBlocks.UMBRAL_LAZULI_BLOCK);
         addDrop(MarblesBlocks.UMBRAL_LAZULI_SHINGLES);
         addSlabDrop(MarblesBlocks.UMBRAL_LAZULI_SHINGLE_SLAB);
         addDrop(MarblesBlocks.UMBRAL_LAZULI_SHINGLE_STAIRS);
         addDrop(MarblesBlocks.UMBRAL_LAZULI_SPOTLIGHT);
+        addDrop(MarblesBlocks.GLAZED_UMBRAL_LAZULI);
+
+        /*
+         * BAMBOO
+         */
 
         addDrop(MarblesBlocks.YELLOW_BAMBOO, MarblesBlocks.YELLOW_BAMBOO);
         addDrop(MarblesBlocks.YELLOW_BAMBOO_SAPLING, MarblesBlocks.YELLOW_BAMBOO);
+        addPottedPlantDrop(MarblesBlocks.POTTED_YELLOW_BAMBOO);
         addDrop(MarblesBlocks.YELLOW_SCAFFOLDING);
+
+        /*
+         * SANDSTONE SETS
+         */
 
         addDrop(MarblesBlocks.DAWN_SAND);
         addDrop(MarblesBlocks.DAWN_SANDSTONE);
@@ -157,6 +192,10 @@ public class MarblesBlockLootTables implements Consumer<BiConsumer<Identifier, L
         addDrop(MarblesBlocks.CUT_DUSK_SANDSTONE_WALL);
         addDrop(MarblesBlocks.SMOOTH_DUSK_SANDSTONE_WALL);
 
+        /*
+         * GRISP
+         */
+
         addDrop(MarblesBlocks.GRISP_DIRT);
         addDrop(MarblesBlocks.COARSE_GRISP_DIRT);
         addDrop(MarblesBlocks.GRISP_GRASS_BLOCK, block -> dropsWithSilkTouch(block, MarblesBlocks.GRISP_DIRT));
@@ -168,10 +207,55 @@ public class MarblesBlockLootTables implements Consumer<BiConsumer<Identifier, L
         addDrop(MarblesBlocks.GRISP_MYCELIUM_PATH, MarblesBlocks.GRISP_DIRT);
         addDrop(MarblesBlocks.GRISP_FARMLAND, MarblesBlocks.GRISP_DIRT);
 
+        /*
+         * POLLEN-GRACED SET
+         */
+        addDrop(MarblesBlocks.POLLEN_GRACED_WOOL);
+        addDrop(MarblesBlocks.POLLEN_GRACED_CARPET);
+        addDrop(MarblesBlocks.POLLEN_GRACED_BED, (blockx) -> dropsWithProperty(blockx, BedBlock.PART, BedPart.HEAD));
+
+        /*
+         * ICE SET
+         */
+
+        addDrop(MarblesBlocks.FLOESTONE);
+        addDrop(MarblesBlocks.POLISHED_FLOESTONE);
+        addDrop(MarblesBlocks.CHISELED_FLOESTONE);
+        addDrop(MarblesBlocks.FLOESTONE_BRICKS);
+        addDrop(MarblesBlocks.RILLED_FLOESTONE, MarblesBlockLootTables::dropsWithSilkTouch);
+
+        addDrop(MarblesBlocks.SCALED_ICE, MarblesBlockLootTables::dropsWithSilkTouch);
+        addDrop(MarblesBlocks.MINTED_ICE, MarblesBlockLootTables::dropsWithSilkTouch);
+
+        addDrop(MarblesBlocks.CUT_ICE, MarblesBlockLootTables::dropsWithSilkTouch);
+        addDrop(MarblesBlocks.CUT_BLUE_ICE, MarblesBlockLootTables::dropsWithSilkTouch);
+        addDrop(MarblesBlocks.CUT_SCALED_ICE, MarblesBlockLootTables::dropsWithSilkTouch);
+        addDrop(MarblesBlocks.CUT_MINTED_ICE, MarblesBlockLootTables::dropsWithSilkTouch);
+
+        addDrop(MarblesBlocks.CHISELED_ICE, MarblesBlockLootTables::dropsWithSilkTouch);
+        addDrop(MarblesBlocks.CHISELED_BLUE_ICE, MarblesBlockLootTables::dropsWithSilkTouch);
+        addDrop(MarblesBlocks.CHISELED_SCALED_ICE, MarblesBlockLootTables::dropsWithSilkTouch);
+        addDrop(MarblesBlocks.CHISELED_MINTED_ICE, MarblesBlockLootTables::dropsWithSilkTouch);
+
+        addDrop(MarblesBlocks.ICE_BRICKS, MarblesBlockLootTables::dropsWithSilkTouch);
+        addDrop(MarblesBlocks.BLUE_ICE_BRICKS, MarblesBlockLootTables::dropsWithSilkTouch);
+        addDrop(MarblesBlocks.SCALED_ICE_BRICKS, MarblesBlockLootTables::dropsWithSilkTouch);
+        addDrop(MarblesBlocks.MINTED_ICE_BRICKS, MarblesBlockLootTables::dropsWithSilkTouch);
+
+        /*
+         * MISC
+         */
+
+        addDrop(MarblesBlocks.ROPE);
+
+        /*
+         * GENERATION
+         */
+
         Set<Identifier> set = Sets.newHashSet();
         Iterable<Block> blocks = Registry.BLOCK
                                      .stream()
-                                     .filter(block -> Registry.BLOCK.getId(block).getNamespace().equals("marbles"))
+                                     .filter(block -> Registry.BLOCK.getId(block).getNamespace().equals(Marbles.MOD_ID))
                                      ::iterator;
 
         for (Block block : blocks) {
@@ -219,6 +303,7 @@ public class MarblesBlockLootTables implements Consumer<BiConsumer<Identifier, L
     private void addWoodDrops(WoodBlocks blocks) {
         addDrop(blocks.PLANKS);
         addDrop(blocks.SAPLING);
+        addPottedPlantDrop(blocks.POTTED_SAPLING);
         addDrop(blocks.LOG);
         addDrop(blocks.STRIPPED_LOG);
         addDrop(blocks.WOOD);

@@ -1,7 +1,7 @@
 package net.dodogang.marbles.debug;
 
+import net.dodogang.marbles.client.debug.SpotlightDebugView;
 import net.minecraft.text.TranslatableText;
-
 import net.shadew.debug.api.DebugMenuInitializer;
 import net.shadew.debug.api.menu.BooleanOption;
 import net.shadew.debug.api.menu.DebugMenu;

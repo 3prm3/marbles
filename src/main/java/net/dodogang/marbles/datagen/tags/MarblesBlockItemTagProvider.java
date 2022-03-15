@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import static net.dodogang.marbles.init.MarblesBlocks.*;
 
+@SuppressWarnings("unused")
 public class MarblesBlockItemTagProvider implements DataProvider {
     private final TagStore<Block> blocks;
     private final TagStore<Item> items;
@@ -36,11 +37,16 @@ public class MarblesBlockItemTagProvider implements DataProvider {
     public void run(DataCache cache) throws IOException {
         addWoodSet(ASPEN, MarblesBlockTags.ASPEN_LOGS, MarblesItemTags.ASPEN_LOGS);
         addWoodSet(HOOPSI_SPRUCE, MarblesBlockTags.HOOPSI_SPRUCE_LOGS, MarblesItemTags.HOOPSI_SPRUCE_LOGS);
+        addWoodSet(RED_BIRCH, MarblesBlockTags.RED_BIRCH_LOGS, MarblesItemTags.RED_BIRCH_LOGS);
 
         addTravertineSet(TRAVERTINE_BLOCKS, MarblesBlockTags.TRAVERTINE, MarblesItemTags.TRAVERTINE);
         addTravertineSet(LEMON_TRAVERTINE_BLOCKS, MarblesBlockTags.LEMON_TRAVERTINE, MarblesItemTags.LEMON_TRAVERTINE);
         addTravertineSet(PEACH_TRAVERTINE_BLOCKS, MarblesBlockTags.PEACH_TRAVERTINE, MarblesItemTags.PEACH_TRAVERTINE);
         addTravertineSet(TANGERINE_TRAVERTINE_BLOCKS, MarblesBlockTags.TANGERINE_TRAVERTINE, MarblesItemTags.TANGERINE_TRAVERTINE);
+
+        blocks.factory(MarblesBlockTags.SPECIAL_ROPE_SUPPORTS).add(BlockTags.LEAVES);
+
+        blocks.factory(BlockTags.PORTALS).add(TRAVERTINE_PORTAL);
 
         blocks.factory(BlockTags.SLABS).add(MarblesBlockTags.TRAVERTINE_SLABS);
         items.factory(ItemTags.SLABS).add(MarblesItemTags.TRAVERTINE_SLABS);
@@ -119,7 +125,8 @@ public class MarblesBlockItemTagProvider implements DataProvider {
 
         add(
             BlockTags.CLIMBABLE,
-            YELLOW_SCAFFOLDING
+            YELLOW_SCAFFOLDING,
+            ROPE
         );
 
         add(
@@ -132,6 +139,21 @@ public class MarblesBlockItemTagProvider implements DataProvider {
             BlockTags.ENDERMAN_HOLDABLE,
             DAWN_SAND,
             DUSK_SAND
+        );
+
+        add(
+            BlockTags.CARPETS, ItemTags.CARPETS,
+            POLLEN_GRACED_CARPET
+        );
+
+        add(
+            BlockTags.WOOL, ItemTags.WOOL,
+            POLLEN_GRACED_WOOL
+        );
+
+        add(
+            BlockTags.BEDS, ItemTags.BEDS,
+            POLLEN_GRACED_BED
         );
 
         add(
@@ -240,6 +262,7 @@ public class MarblesBlockItemTagProvider implements DataProvider {
     private void addWoodSet(WoodBlocks set, Tag.Identified<Block> logsBlockTag, Tag.Identified<Item> logsItemTag) {
         add(BlockTags.PLANKS, ItemTags.PLANKS, set.PLANKS);
         add(BlockTags.SAPLINGS, ItemTags.SAPLINGS, set.SAPLING);
+        add(BlockTags.FLOWER_POTS, set.POTTED_SAPLING);
         add(logsBlockTag, logsItemTag, set.LOG, set.STRIPPED_LOG, set.WOOD, set.STRIPPED_WOOD);
         if (set.isFlammable()) {
             blocks.factory(BlockTags.LOGS_THAT_BURN).add(logsBlockTag);

@@ -1,4 +1,49 @@
 {
+  "entity.bouncer.throw": {
+    "sounds": [
+      "marbles:entity/bouncer/throw1",
+      "marbles:entity/bouncer/throw2",
+      "marbles:entity/bouncer/throw3"
+    ],
+    "subtitle": "subtitles.entity.marbles.bouncer.throw"
+  },
+  "entity.bouncer.ambient": {
+    "sounds": [
+      "marbles:entity/bouncer/ambient1",
+      "marbles:entity/bouncer/ambient2",
+      "marbles:entity/bouncer/ambient3"
+    ],
+    "subtitle": "subtitles.entity.marbles.bouncer.ambient"
+  },
+  "entity.bouncer.waiting": {
+    "sounds": [
+      "marbles:entity/bouncer/waiting1",
+      "marbles:entity/bouncer/waiting2",
+      "marbles:entity/bouncer/waiting3"
+    ],
+    "subtitle": "subtitles.entity.marbles.bouncer.waiting"
+  },
+  "entity.bouncer.death": {
+    "sounds": [
+      "marbles:entity/bouncer/death"
+    ],
+    "subtitle": "subtitles.entity.marbles.bouncer.death"
+  },
+  "entity.bouncer.hurt": {
+    "sounds": [
+      "marbles:entity/bouncer/hurt1",
+      "marbles:entity/bouncer/hurt2",
+      "marbles:entity/bouncer/hurt3"
+    ],
+    "subtitle": "subtitles.entity.marbles.bouncer.hurt"
+  },
+  "entity.bouncer.step": {
+    "sounds": [
+      "marbles:entity/bouncer/step"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+
   "block.pink_salt.break": {
     "category": "block",
     "subtitle": "subtitles.block.generic.break",
@@ -99,5 +144,100 @@
       "marbles:block/pink_salt_bricks/step3",
       "marbles:block/pink_salt_bricks/step4"
     ]
+  },
+
+  "block.ice_bricks.break": {
+    "sounds": [
+      "marbles:block/ice_bricks/soft1",
+      "marbles:block/ice_bricks/soft2",
+      "marbles:block/ice_bricks/soft3"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.ice_bricks.fall": {
+    "sounds": [
+      "marbles:block/ice_bricks/hard1",
+      "marbles:block/ice_bricks/hard2",
+      "marbles:block/ice_bricks/hard3"
+    ]
+  },
+  "block.ice_bricks.hit": {
+    "sounds": [
+      "marbles:block/ice_bricks/hard1",
+      "marbles:block/ice_bricks/hard2",
+      "marbles:block/ice_bricks/hard3"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.ice_bricks.place": {
+    "sounds": [
+      "marbles:block/ice_bricks/soft1",
+      "marbles:block/ice_bricks/soft2",
+      "marbles:block/ice_bricks/soft3"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.ice_bricks.step": {
+    "sounds": [
+      "marbles:block/ice_bricks/hard1",
+      "marbles:block/ice_bricks/hard2",
+      "marbles:block/ice_bricks/hard3"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+
+  "music.pink_salt_cave": {
+    "sounds": []
+  },
+  "ambient.pink_salt_cave.loop": {
+    "sounds": [
+      {
+        "name": "marbles:ambient/pink_salt_cave/loop",
+        "stream": true,
+        "volume": 0.71
+      }
+    ]
+  },
+  "ambient.pink_salt_cave.additions": {
+    "sounds": [
+      {
+        "name": "marbles:ambient/pink_salt_cave/drip1",
+        "volume": 0.3
+      },
+      {
+        "name": "marbles:ambient/pink_salt_cave/drip2",
+        "volume": 0.3
+      },
+      {
+        "name": "marbles:ambient/pink_salt_cave/drip3",
+        "volume": 0.3
+      },
+
+      {
+        "name": "marbles:ambient/pink_salt_cave/drip1",
+        "volume": 0.3,
+        "pitch": 0.2
+      },
+      {
+        "name": "marbles:ambient/pink_salt_cave/drip2",
+        "volume": 0.3,
+        "pitch": 0.2
+      },
+      {
+        "name": "marbles:ambient/pink_salt_cave/drip3",
+        "volume": 0.3,
+        "pitch": 0.2
+      }
+    ]
+  },
+
+  "music.ice_cave": {
+    "sounds": []
+  },
+  "ambient.ice_cave.loop": {
+    "sounds": []
+  },
+  "ambient.ice_cave.additions": {
+    "sounds": []
   }
 }

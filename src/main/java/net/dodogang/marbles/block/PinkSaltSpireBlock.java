@@ -67,7 +67,7 @@ public class PinkSaltSpireBlock extends FallingBlock implements Waterloggable {
         BlockState below = world.getBlockState(down);
 
         // Check if above or below is feasible surface
-        return (isValidSurface(below, world, down, Direction.UP) || isSelfFacing(below, Direction.UP)) || (isValidSurface(above, world, up, Direction.DOWN) || isSelfFacing(above, Direction.DOWN));
+        return isValidSurface(below, world, down, Direction.UP) || isSelfFacing(below, Direction.UP) || isValidSurface(above, world, up, Direction.DOWN) || isSelfFacing(above, Direction.DOWN);
     }
 
     @Override
@@ -77,31 +77,32 @@ public class PinkSaltSpireBlock extends FallingBlock implements Waterloggable {
 
         // Tick fluid because..mojang logic
         if (state.get(WATERLOGGED)) {
-            world.getFluidTickScheduler().schedule(pos, state.getFluidState().getFluid(), 0);
+            world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
-        // The block that supports us changed, decide what to do
+        // The block that supports me changed, decide what to do
         if (direction == nvdir) {
             if (neighbor.isOf(this)) {
                 // We're being supported by another salt spire
-                if (neighbor.get(VERTICAL_DIRECTION) != pvdir) {
-                    // If our supporter changed direction somehow, let's just change ourselves to
-                    return state.with(VERTICAL_DIRECTION, neighbor.get(VERTICAL_DIRECTION));
+                Direction adjdir = neighbor.get(VERTICAL_DIRECTION);
+                if (adjdir == nvdir) {
+                    // If my supporter changed direction somehow, let's just change myself too
+                    return state.with(VERTICAL_DIRECTION, nvdir);
                 } else {
                     return state;
                 }
             }
 
             if (!isValidSurface(neighbor, world, adj, direction.getOpposite())) {
-                // We aren't supported anymore, try connect to another spire by changing direction
+                // I'm not supported anymore, trying to connect to another spire by changing direction
 
                 BlockPos off = pos.offset(pvdir);
                 BlockState supportable = world.getBlockState(off);
                 if (isValidSurface(supportable, world, off, nvdir) || isSelfFacing(supportable, nvdir)) {
                     return state.with(VERTICAL_DIRECTION, nvdir);
                 } else {
-                    // If we failed connecting to something else: fall
-                    world.getBlockTickScheduler().schedule(pos, this, 0);
+                    // If I failed connecting to something else: fall
+                    scheduleFall(state, world, pos);
                 }
             }
         }
@@ -159,10 +160,10 @@ public class PinkSaltSpireBlock extends FallingBlock implements Waterloggable {
         return state.isOf(this) && state.get(VERTICAL_DIRECTION) == facing;
     }
 
-    private static void generateParticle(World world, BlockPos pos, Random rng) {
-        double x = pos.getX() + (rng.nextBoolean() ? 0.26 : -0.26) + rng.nextDouble() * 0.05;
+    private static void generateParticle(World world, BlockPos pos, Random rng, Vec3d offset) {
+        double x = pos.getX() + (rng.nextBoolean() ? 0.26 : -0.26) + rng.nextDouble() * 0.05 + 0.5 + offset.x;
         double y = pos.getY() + rng.nextDouble();
-        double z = pos.getZ() + (rng.nextBoolean() ? 0.26 : -0.26) + rng.nextDouble() * 0.05;
+        double z = pos.getZ() + (rng.nextBoolean() ? 0.26 : -0.26) + rng.nextDouble() * 0.05 + 0.5 + offset.z;
 
         world.addParticle(MarblesParticles.PINK_SALT, x, y, z, 0, 0, 0);
     }
@@ -171,7 +172,7 @@ public class PinkSaltSpireBlock extends FallingBlock implements Waterloggable {
     @Environment(EnvType.CLIENT)
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rng) {
         if (rng.nextDouble() <= 0.3) {
-            generateParticle(world, pos, rng);
+            generateParticle(world, pos, rng, state.getModelOffset(world, pos));
         }
     }
 
@@ -188,7 +189,7 @@ public class PinkSaltSpireBlock extends FallingBlock implements Waterloggable {
 
             Random random = world.random;
             for (int i = 0; i < 40; i++) {
-                generateParticle(world, pos, random);
+                generateParticle(world, pos, random, state.getModelOffset(world, pos));
             }
         }
     }
@@ -232,14 +233,34 @@ public class PinkSaltSpireBlock extends FallingBlock implements Waterloggable {
             mpos.move(vdir);
         }
 
-        while (isSelfFacing(world.getBlockState(mpos), vdir)) {
-            world.getBlockTickScheduler().schedule(mpos, this, 2);
+        BlockState support = world.getBlockState(mpos);
+        boolean isSupportable = isValidSurface(support, world, mpos, vdir.getOpposite());
+
+        if (vdir == Direction.DOWN) {
             mpos.move(vdir, -1);
+            while (isSelfFacing(world.getBlockState(mpos), vdir)) {
+                if (isSupportable) {
+                    world.setBlockState(mpos, state.with(VERTICAL_DIRECTION, vdir.getOpposite()), 3);
+                } else {
+                    world.getBlockTickScheduler().schedule(mpos.toImmutable(), this, 0);
+                }
+                mpos.move(vdir, -1);
+            }
+        } else {
+            mpos.set(pos);
+            while (isSelfFacing(world.getBlockState(mpos), vdir)) {
+                if (isSupportable) {
+                    world.setBlockState(mpos, state.with(VERTICAL_DIRECTION, vdir.getOpposite()), 3);
+                } else {
+                    world.getBlockTickScheduler().schedule(mpos.toImmutable(), this, 0);
+                }
+                mpos.move(vdir);
+            }
         }
     }
 
     private static void spawnFallingBlock(BlockState state, ServerWorld world, BlockPos pos) {
-        Vec3d vec3d = Vec3d.ofBottomCenter(pos).add(state.getModelOffset(world, pos));
+        Vec3d vec3d = Vec3d.ofBottomCenter(pos);
         FallingBlockEntity fallingBlock = new FallingBlockEntity(world, vec3d.x, vec3d.y, vec3d.z, state.with(VERTICAL_DIRECTION, Direction.UP));
 
         world.spawnEntity(fallingBlock);
